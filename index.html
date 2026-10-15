@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NovaMart | Online Shopping</title>
+  <meta name="description" content="Shop fashion, electronics, accessories and lifestyle products at NovaMart.">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement">
+    Free delivery on orders above ₹999!
+  </div>
+
+  <!-- Header -->
+  <header class="navbar">
+
+    <a href="#" class="logo">
+      Nova<span>Mart.</span>
+    </a>
+
+    <!-- Search -->
+    <div class="search-box">
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search products..."
+        aria-label="Search products"
+      >
+      <button id="searchBtn" type="button" aria-label="Search">
+        ⌕
+      </button>
+    </div>
+
+    <!-- Login, Signup and Cart -->
+    <div class="account-buttons">
+
+      <button
+        class="login-btn"
+        id="loginBtn"
+        type="button"
+      >
+        Login
+      </button>
+
+      <button
+        class="signup-btn"
+        id="signupBtn"
+        type="button"
+      >
+        Sign Up
+      </button>
+
+      <span id="welcomeUser" hidden></span>
+
+      <button
+        class="cart-button"
+        id="cartButton"
+        type="button"
+      >
+        🛒 Cart
+        <span id="cartCount">0</span>
+      </button>
+
+    </div>
+
+  </header>
+
+  <p
+    class="account-message"
+    id="accountMessage"
+    role="status"
+    aria-live="polite"
+    hidden
+  ></p>
+
+  <!-- Navigation Categories -->
+  <nav class="categories" aria-label="Product categories">
+
+    <button class="category active" data-category="All" type="button">
+      All
+    </button>
+
+    <button class="category" data-category="Fashion" type="button">
+      Fashion
+    </button>
+
+    <button class="category" data-category="Electronics" type="button">
+      Electronics
+    </button>
+
+    <button class="category" data-category="Accessories" type="button">
+      Accessories
+    </button>
+
+    <button class="category" data-category="Lifestyle" type="button">
+      Lifestyle
+    </button>
+
+  </nav>
+
+  <main>
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <p class="eyebrow">
+          YOUR EVERYDAY SHOPPING DESTINATION
+        </p>
+
+        <h1>
+          Everything you love,<br>
+          in one place.
+        </h1>
+
+        <p>
+          Discover great products at prices you'll love.
+          Find your favourites at NovaMart.
+        </p>
+
+        <button
+          class="primary-btn"
+          id="shopNow"
+          type="button"
+        >
+          Shop Now →
+        </button>
+
+      </div>
+
+      <div class="hero-image">
+
+        <img
+          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85"
+          alt="Fashion collection"
+        >
+
+      </div>
+
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="productsSection">
+
+      <div class="section-heading">
+
+        <div>
+          <p class="eyebrow">HANDPICKED FOR YOU</p>
+          <h2>Trending Products</h2>
+        </div>
+
+        <p id="productCount">0 products</p>
+
+      </div>
+
+      <!-- Products are rendered using JavaScript -->
+      <div
+        class="product-grid"
+        id="productGrid"
+      ></div>
+
+      <p
+        class="empty-message"
+        id="emptyMessage"
+        hidden
+      >
+        No products found. Try another search.
+      </p>
+
+    </section>
+
+  </main>
+
+  <!-- Shopping Cart Panel -->
+  <section
+    class="cart-panel"
+    id="cartPanel"
+    aria-label="Shopping cart"
+    aria-modal="true"
+    role="dialog"
+  >
+
+    <div class="cart-heading">
+
+      <h2>Your Shopping Cart</h2>
+
+      <button
+        class="close-btn"
+        id="closeCart"
+        type="button"
+        aria-label="Close cart"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <!-- Cart products rendered using JavaScript -->
+    <div
+      class="cart-items"
+      id="cartItems"
+    ></div>
+
+    <div class="cart-footer">
+
+      <div class="total-row">
+        <span>Total</span>
+        <strong id="cartTotal">₹0</strong>
+      </div>
+
+      <button
+        class="primary-btn checkout-btn"
+        id="checkoutBtn"
+        type="button"
+      >
+        Proceed to Checkout
+      </button>
+
+      <p class="demo-note">
+        Demo only — no real payment is processed.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- Cart Background Overlay -->
+  <div
+    class="overlay"
+    id="overlay"
+  ></div>
+
+  <!-- Login and Sign Up Popup -->
+  <div
+    class="auth-overlay"
+    id="authOverlay"
+  >
+
+    <div
+      class="auth-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="authTitle"
+    >
+
+      <!-- Close Button -->
+      <button
+        class="auth-close"
+        id="authClose"
+        type="button"
+        aria-label="Close login form"
+      >
+        ✕
+      </button>
+
+      <!-- Logo -->
+      <a href="#" class="logo">
+        Nova<span>Mart.</span>
+      </a>
+
+      <!-- Form Heading -->
+      <h2 id="authTitle">Welcome Back!</h2>
+
+      <p id="authSubtitle">
+        Login to continue shopping.
+      </p>
+
+      <!-- Authentication Form -->
+      <form id="authForm">
+
+        <!-- Name: visible during signup -->
+        <div id="nameField" hidden>
+
+          <label for="authName">
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            id="authName"
+            name="name"
+            placeholder="Enter your full name"
+            autocomplete="name"
+          >
+
+        </div>
+
+        <!-- Email -->
+        <label for="authEmail">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="authEmail"
+          name="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+          required
+        >
+
+        <!-- Password -->
+        <label for="authPassword">
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="authPassword"
+          name="password"
+          placeholder="Enter password"
+          minlength="6"
+          autocomplete="current-password"
+          required
+        >
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="primary-btn auth-submit"
+          id="authSubmit"
+        >
+          Login
+        </button>
+
+        <!-- Feedback -->
+        <p
+          id="authMessage"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+      </form>
+
+      <!-- Switch Between Login and Signup -->
+      <p class="auth-switch">
+
+        <span id="switchText">
+          Don't have an account?
+        </span>
+
+        <button
+          type="button"
+          id="switchAuth"
+        >
+          Sign Up
+        </button>
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+
+    <a href="#" class="logo">
+      Nova<span>Mart.</span>
+    </a>
+
+    <p>
+      Your favourite products, all in one place.
+    </p>
+
+    <p class="copyright">
+      © 2026 NovaMart. Demo website.
+    </p>
+
+  </footer>
+
+</body>
+</html>
