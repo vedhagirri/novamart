@@ -361,6 +361,50 @@
 
   </div>
 
+
+  <!-- Payment Modal: demo UI only; no real payments are processed -->
+  <div class="payment-modal" id="paymentModal" aria-hidden="true">
+    <div class="payment-box" role="dialog" aria-modal="true" aria-labelledby="paymentTitle">
+      <button class="close-payment" id="closePayment" type="button" aria-label="Close payment window">&times;</button>
+      <p class="eyebrow">NOVAMART SECURE CHECKOUT</p>
+      <h2 id="paymentTitle">Choose Payment Method</h2>
+      <p class="payment-total">Order total: <strong id="paymentTotal">₹0</strong></p>
+
+      <div class="payment-options">
+        <button class="payment-option" id="upiOption" type="button">
+          <span class="payment-icon">▦</span><strong>PhonePe / UPI</strong><small>Scan a QR code</small>
+        </button>
+        <button class="payment-option" id="cardOption" type="button">
+          <span class="payment-icon">▰</span><strong>Credit / Debit Card</strong><small>Card payment demo</small>
+        </button>
+      </div>
+
+      <section id="upiSection" class="payment-section" hidden>
+        <h3>Pay with PhonePe / UPI</h3>
+        <div class="qr-placeholder" role="img" aria-label="Demo QR placeholder">
+          <div class="qr-pattern" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+          <strong>DEMO QR</strong>
+        </div>
+        <p class="demo-note">This is a visual demo QR only. It cannot be scanned to make a payment. Connect a payment gateway to generate a real, transaction-specific QR code.</p>
+      </section>
+
+      <form id="cardSection" class="payment-section" hidden>
+        <h3>Card Details</h3>
+        <p class="demo-note">Demo interface only. Do not enter real card information.</p>
+        <label for="cardName">Cardholder name</label>
+        <input id="cardName" name="cardName" type="text" placeholder="Name on card" autocomplete="off" required>
+        <label for="cardNumber">Card number</label>
+        <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" autocomplete="off" required>
+        <div class="card-row">
+          <div><label for="cardExpiry">Expiry date</label><input id="cardExpiry" type="text" maxlength="5" placeholder="MM/YY" autocomplete="off" required></div>
+          <div><label for="cardCvv">CVV</label><input id="cardCvv" type="password" inputmode="numeric" maxlength="4" placeholder="CVV" autocomplete="off" required></div>
+        </div>
+        <button class="pay-button" type="submit">Continue (Demo)</button>
+      </form>
+      <p id="paymentMessage" class="payment-message" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
 

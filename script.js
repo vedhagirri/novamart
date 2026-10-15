@@ -393,25 +393,86 @@ document.getElementById("shopNow").addEventListener("click", () => {
 
 
 /* =========================================
-   15. CHECKOUT DEMO
+   15. PAYMENT / CHECKOUT DEMO
+   This creates a front-end demo only. It does not process payments.
 ========================================= */
 
-document.getElementById("checkoutBtn").addEventListener("click", () => {
+const paymentModal = document.getElementById("paymentModal");
+const closePaymentButton = document.getElementById("closePayment");
+const paymentTotal = document.getElementById("paymentTotal");
+const paymentMessage = document.getElementById("paymentMessage");
+const upiOption = document.getElementById("upiOption");
+const cardOption = document.getElementById("cardOption");
+const upiSection = document.getElementById("upiSection");
+const cardSection = document.getElementById("cardSection");
+
+function openPaymentModal() {
   if (cart.length === 0) {
     alert("Your cart is empty. Please add a product first.");
     return;
   }
 
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  paymentTotal.textContent = formatPrice(total);
+  paymentMessage.textContent = "";
+  paymentModal.classList.add("show");
+  paymentModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  selectPaymentMethod("");
+}
 
-  alert(
-    "Welcome to NovaMart Checkout!\n\n" +
-    "Total amount: " + formatPrice(total) +
-    "\n\nThis is a demo. No payment has been processed."
-  );
+function closePaymentModal() {
+  paymentModal.classList.remove("show");
+  paymentModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+}
+
+function selectPaymentMethod(method) {
+  const showUPI = method === "upi";
+  const showCard = method === "card";
+  upiSection.hidden = !showUPI;
+  cardSection.hidden = !showCard;
+  upiOption.classList.toggle("selected", showUPI);
+  cardOption.classList.toggle("selected", showCard);
+  paymentMessage.textContent = "";
+  // Avoid browser validation on hidden required card fields.
+  cardSection.querySelectorAll("input").forEach(input => {
+    input.required = showCard;
+  });
+}
+
+document.getElementById("checkoutBtn").addEventListener("click", openPaymentModal);
+closePaymentButton.addEventListener("click", closePaymentModal);
+upiOption.addEventListener("click", () => selectPaymentMethod("upi"));
+cardOption.addEventListener("click", () => selectPaymentMethod("card"));
+paymentModal.addEventListener("click", event => {
+  if (event.target === paymentModal) closePaymentModal();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && paymentModal.classList.contains("show")) {
+    closePaymentModal();
+  }
+});
+
+// Formatting helpers for demo card fields; no card details are stored or sent.
+document.getElementById("cardNumber").addEventListener("input", event => {
+  const digits = event.target.value.replace(/\D/g, "").slice(0, 16);
+  event.target.value = digits.match(/.{1,4}/g)?.join(" ") || "";
+});
+
+document.getElementById("cardExpiry").addEventListener("input", event => {
+  const digits = event.target.value.replace(/\D/g, "").slice(0, 4);
+  event.target.value = digits.length > 2 ? digits.slice(0, 2) + "/" + digits.slice(2) : digits;
+});
+
+document.getElementById("cardCvv").addEventListener("input", event => {
+  event.target.value = event.target.value.replace(/\D/g, "").slice(0, 4);
+});
+
+cardSection.addEventListener("submit", event => {
+  event.preventDefault();
+  if (!cardSection.reportValidity()) return;
+  paymentMessage.textContent = "Demo checkout only. No payment was processed.";
 });
 
 
